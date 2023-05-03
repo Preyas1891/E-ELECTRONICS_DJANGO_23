@@ -1,0 +1,75 @@
+{% extends 'userbase.html' %}
+{% load static %}
+{% block content_data %}
+
+<style>
+    .card-body div{
+        padding: 15px;
+        margin-bottom: 10px;
+        box-shadow: 0 0 8px 0px #333;
+        font-size: 18px;
+        text-transform: capitalize;
+    }
+    
+    .card-body .img img {
+        margin-left: 8rem;
+        width: 300px;
+    height: 330px;
+    }
+
+</style>
+
+<section class="w3l-about-breadcrumb">
+    <div class="breadcrumb-bg breadcrumb-bg-about pt-5">
+        <div class="container pt-lg-5 py-3">
+        </div>
+    </div>
+</section>
+<section class="w3l-breadcrumb">
+    <div class="container">
+        <ul class="breadcrumbs-custom-path">
+            <li><a href="{% url 'UserIndexPage' %}">Home</a></li>
+            <li class="active"><span class="fa fa-angle-right mx-2" aria-hidden="true"></span> Orders</li>
+        </ul>
+    </div>
+</section>
+
+<section class="w3l-breadcrumb">
+  
+  <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div>Owner Name : {{ prod.owner_id.Ownername }}</div>
+                <div>Owner No : {{ prod.owner_id.Ownerphone }}</div>
+                <div>Owner Email : {{ prod.owner_id.Owneremail }}</div>
+                <div class="img">Room Image : <br>
+                <img src="{{ prod.prop_id.image.url }}" width="200px"></div>
+                <div>Room Count : 1 </div>
+                <div>Room Date : {{ prod.date }}</div>
+            </div>
+          </div>
+</div>
+{% if prod.payment %}
+ 
+{% else %}
+<form method='POST' action="{% url 'paymentofbooking' %}" >
+    {% csrf_token %}
+    <input type="hidden" value="{{ prod.user_id.full_name }}" name='user'>
+    <input type="hidden" value="{{ prod.user_id.id }}" name='userid'>
+    <input type="hidden" value="{{ prod.owner_id.id }}" name='ownerid'>
+    <input type="hidden" value="{{ prod.owner_id.Ownername }}" name='owner'>
+    <input type="hidden" value="{{ prod.prop_id.price }}" name='price'>
+    <input type="hidden" value="{{ prod.prop_id.title }}" name='prop_name'>
+    <input type="hidden" value="{{ prod.id }}" name='id'>
+  <button
+    type="submit"
+    class="btn btn-success btn-lg" style="background-color: #7AB730 ; border: 0;"
+    name="submit"
+    value="buy">
+    Payment
+  </button>
+</form>
+{% endif %} 
+</section>
+
+{% endblock content_data %}
