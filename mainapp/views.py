@@ -471,17 +471,17 @@ def prop_booking(request,id):
         if user.email_id == prod.email_id:
             return HttpResponse("<h2>You Are Owner Of This APPLIANCE</h2>")
         else:
-            owner=OwnerDetails.objects.get(Owneremail=prod.email_id)
+            #owner=OwnerDetails.objects.get(Owneremail=prod.email_id)
             if request.POST and request.FILES:
                 model=Orders()
                 model.user_id=user
-                model.owner_id=owner
+                #model.owner_id=owner
                 model.app_id=prod
                 model.document=request.POST and request.FILES['document']
                 model.date=date.today()
                 model.save()
                 prod.available=False
-                prod.rooms -= 1
+                #prod.rooms -= 1
                 prod.save()
                 return redirect ('UserBooks')
             return render(request,'booking.html',{'users_data':user,'prod':prod,'wait':'WAIT for approval'})
@@ -579,7 +579,7 @@ def paymentofbooking(request):
             request.session['owner_id'] = request.POST['ownerid']
             request.session['owner'] = request.POST['owner']
             request.session['id'] = request.POST['id']
-            request.session['prop_name'] = request.POST['app_name']
+            request.session['app_name'] = request.POST['app_name']
             request.session['price'] = request.POST['price']
             request.session['PaymentVia'] = "Online"
             request.session['PaymentMethod'] = "Razorpay"
